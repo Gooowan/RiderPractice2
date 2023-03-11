@@ -5,7 +5,8 @@ var generator = new MapGenerator(new MapGeneratorOptions()
     Height = 30,
     Width = 30,
     Seed = 1337,
-    
+    AddTraffic = true,
+    TrafficSeed = 1337,
 });
 
 Point start = new Point(4, 12);
@@ -58,7 +59,14 @@ List<Point> GetShortestPath(string[,] map, Point start, Point goal)
             if (!origins.ContainsKey(neighbour))
             {
                 origins.Add(neighbour, position);
-                distances.Add(neighbour, 1 + distances[position]);
+                var traffic = map[position.Column, position.Row];
+                var traffic1 = 1;
+                if (traffic != Space && traffic != Wall)
+                {
+                    traffic1 = Int32.Parse(traffic);
+                }
+                
+                distances.Add(neighbour, traffic1 + distances[position]);
             }
         }
         distances.Remove(position);
