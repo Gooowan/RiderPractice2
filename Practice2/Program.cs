@@ -4,6 +4,7 @@ var generator = new MapGenerator(new MapGeneratorOptions()
 {
     Height = 30,
     Width = 30,
+    Seed = 1337,
 });
 
 string[,] map = generator.Generate();
@@ -12,8 +13,8 @@ new MapPrinter().Print(map);
 const string Wall = "█";
 const string Space = " ";
 
-Point start = new Point(10, 10);
-Point goal = new Point(23, 23);
+Point start = new Point(4, 12);
+Point goal = new Point(23, 22);
 
 //List<Point> neighbours = new List<Point>();
 
@@ -61,6 +62,13 @@ List<Point> GetShortestPath(string[,] map, Point start, Point goal)
         distances.Remove(position);
         position = distances.MinBy(kvp => kvp.Value).Key;
     }
-    return null;
+
+    List<Point> Path = new List<Point>();
+    while (position.Column != start.Column || position.Row != start.Row)
+    {
+        Path.Add(position);
+        position = origins[position];
+    }
+    return Path;
 }
 //make path out of what is in origin
