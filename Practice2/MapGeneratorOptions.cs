@@ -14,7 +14,7 @@ namespace Kse.Algorithms.Samples
         
         public bool AddTraffic { get; set; }
 
-        public int TrafficSeed { get; set; } = -1;
+        public int TrafficSeed { get; set; } 
     }
     
     

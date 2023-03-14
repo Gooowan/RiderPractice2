@@ -12,12 +12,11 @@ Point start = new Point(4, 12);
 Point goal = new Point(23, 22);
 
 string[,] map = generator.Generate();
-map[start.Column, start.Row] = "A";
 
 const string Wall = "█";
 const string Space = " ";
 
-//List<Point> neighbours = new List<Point>();
+List<Point> neighbours = new List<Point>();
 
 List<Point> GetNeighbours(Point start, string[,] maze)
 {
@@ -34,7 +33,7 @@ List<Point> GetNeighbours(Point start, string[,] maze)
         var newRow = start.Row + offsetY;
         if (newColumn >= 0 && newRow >= 0 && newColumn < maze.GetLength(0) && newRow < maze.GetLength(1))
         {
-            if (maze[newColumn, newRow] == Space)
+            if (maze[newColumn, newRow] != Wall)
             {
                 result.Add(new Point(newColumn, newRow));
             }
@@ -58,7 +57,6 @@ List<Point> GetShortestPath(string[,] map, Point start, Point goal)
             {
                 origins.Add(neighbour, position);
                 var traffic = map[position.Column, position.Row];
-                Console.WriteLine(traffic);
                 var traffic1 = 1;
                 if (traffic != Space && traffic != Wall)
                 {
@@ -81,8 +79,6 @@ List<Point> GetShortestPath(string[,] map, Point start, Point goal)
     Path.Add(position);
     return Path;
 }
-
-new MapPrinter().Print(map, new List<Point>(), start, goal);
 
 var shortestPath = GetShortestPath(map, start, goal);
 new MapPrinter().Print(map, shortestPath, start, goal);
