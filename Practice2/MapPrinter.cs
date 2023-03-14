@@ -11,8 +11,11 @@ namespace Kse.Algorithms.Samples
             for (var row = 0; row < maze.GetLength(1); row++)
             {
                 Console.Write($"{row}\t");
+                
                 for (var column = 0; column < maze.GetLength(0); column++)
                 {
+                    Console.Write(maze[column, row]);
+                    /*
                     Point pix = new Point(column, row);
                     if (Path.Contains(pix))
                     {
@@ -34,7 +37,7 @@ namespace Kse.Algorithms.Samples
                     {
                         Console.Write(maze[column, row]);
                     }
-                    
+                    */
                 }
 
                 Console.WriteLine();
