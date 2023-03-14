@@ -2,7 +2,6 @@ namespace Kse.Algorithms.Samples
 {
     using System;
     using System.Collections.Generic;
-
     public class MapPrinter
     {
         public void Print(string[,] maze, List<Point> Path, Point start, Point goal)
@@ -36,9 +35,10 @@ namespace Kse.Algorithms.Samples
                     {
                         Console.Write(maze[column, row]);
                     }
+                    
                 }
-
                 Console.WriteLine();
+                
             }
 
             void PrintTopLine()
@@ -58,5 +58,7 @@ namespace Kse.Algorithms.Samples
                 Console.WriteLine("\n");
             }
         }
+        
     }
 }
+//Console.WriteLine($"Length of distance - {distanceLength}");

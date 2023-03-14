@@ -13,10 +13,8 @@ Point goal = new Point(23, 22);
 
 string[,] map = generator.Generate();
 
-const string Wall = "█";
-const string Space = " ";
-
-List<Point> neighbours = new List<Point>();
+const string wall = "█";
+const string space = " ";
 
 List<Point> GetNeighbours(Point start, string[,] maze)
 {
@@ -33,7 +31,7 @@ List<Point> GetNeighbours(Point start, string[,] maze)
         var newRow = start.Row + offsetY;
         if (newColumn >= 0 && newRow >= 0 && newColumn < maze.GetLength(0) && newRow < maze.GetLength(1))
         {
-            if (maze[newColumn, newRow] != Wall)
+            if (maze[newColumn, newRow] != wall)
             {
                 result.Add(new Point(newColumn, newRow));
             }
@@ -58,7 +56,7 @@ List<Point> GetShortestPath(string[,] map, Point start, Point goal)
                 origins.Add(neighbour, position);
                 var traffic = map[position.Column, position.Row];
                 var traffic1 = 1;
-                if (traffic != Space && traffic != Wall)
+                if (traffic != space && traffic != wall)
                 {
                     traffic1 = Int32.Parse(traffic);
                 }
@@ -81,4 +79,31 @@ List<Point> GetShortestPath(string[,] map, Point start, Point goal)
 }
 
 var shortestPath = GetShortestPath(map, start, goal);
+
+var speed = 0;
+var speed_zone = 0;
+for (var row = 0; row < map.GetLength(1); row++)
+{
+    for (var column = 0; column < map.GetLength(0); column++)
+    {
+        Point pix = new Point(column, row);
+        if (shortestPath.Contains(pix))
+        {
+            if (pix.Column == start.Column && pix.Row == start.Row)
+            {
+                speed += 0;
+            }
+            else
+            {
+                speed += 60 -(Int32.Parse(map[column, row]) - 1)*6;
+                speed_zone += 1;
+            }
+        }
+    }
+}
+
+var average_speed = speed / speed_zone;
+
 new MapPrinter().Print(map, shortestPath, start, goal);
+Console.WriteLine();
+Console.WriteLine($"Average speed - {average_speed}");
