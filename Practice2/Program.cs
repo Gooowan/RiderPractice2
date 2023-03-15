@@ -2,14 +2,14 @@
 
 var generator = new MapGenerator(new MapGeneratorOptions()
 {
-    Height = 30,
-    Width = 30,
+    Height = 60,
+    Width = 60,
     Seed = 1337,
     AddTraffic = true,
 });
 
 Point start = new Point(4, 12);
-Point goal = new Point(23, 22);
+Point goal = new Point(47, 42);
 
 string[,] map = generator.Generate();
 
@@ -55,13 +55,14 @@ List<Point> GetShortestPath(string[,] map, Point start, Point goal)
             {
                 origins.Add(neighbour, position);
                 var traffic = map[position.Column, position.Row];
+                var manhattanDistance = Math.Abs(position.Column - goal.Column) + Math.Abs(position.Row - goal.Row);
                 var traffic1 = 1;
                 if (traffic != space && traffic != wall)
                 {
                     traffic1 = Int32.Parse(traffic);
                 }
                 
-                distances.Add(neighbour, traffic1 + distances[position]);
+                distances.Add(neighbour, traffic1 + distances[position] + manhattanDistance);
             }
         }
         distances.Remove(position);
@@ -107,3 +108,4 @@ var average_speed = speed / speed_zone;
 new MapPrinter().Print(map, shortestPath, start, goal);
 Console.WriteLine();
 Console.WriteLine($"Average speed - {average_speed}");
+//klitynka - 1 kilemeter
