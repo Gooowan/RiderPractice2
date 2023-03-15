@@ -8,7 +8,7 @@ var generator = new MapGenerator(new MapGeneratorOptions()
     AddTraffic = true,
 });
 
-Point start = new Point(4, 12);
+Point start = new Point(0, 0);
 Point goal = new Point(47, 42);
 
 string[,] map = generator.Generate();
@@ -81,8 +81,8 @@ List<Point> GetShortestPath(string[,] map, Point start, Point goal)
 
 var shortestPath = GetShortestPath(map, start, goal);
 
-var speed = 0;
-var speed_zone = 0;
+float time = 0f;
+
 for (var row = 0; row < map.GetLength(1); row++)
 {
     for (var column = 0; column < map.GetLength(0); column++)
@@ -92,20 +92,18 @@ for (var row = 0; row < map.GetLength(1); row++)
         {
             if (pix.Column == start.Column && pix.Row == start.Row)
             {
-                speed += 0;
+                time += 0;
             }
             else
             {
-                speed += 60 -(Int32.Parse(map[column, row]) - 1)*6;
-                speed_zone += 1;
+                time += (float)1 / (60 -(Int32.Parse(map[column, row]) - 1) *6);
+                //Console.WriteLine(time);
             }
         }
     }
 }
 
-var average_speed = speed / speed_zone;
-
 new MapPrinter().Print(map, shortestPath, start, goal);
 Console.WriteLine();
-Console.WriteLine($"Average speed - {average_speed}");
+Console.WriteLine($"Time for this trip - {time}");
 //klitynka - 1 kilemeter

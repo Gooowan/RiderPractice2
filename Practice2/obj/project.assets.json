@@ -8,19 +8,19 @@
     "net7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\markh\\.nuget\\packages\\": {}
+    "/Users/bunjee/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\RiderPractice2\\Practice2\\Practice2.csproj",
+      "projectUniqueName": "/Users/bunjee/RiderProjects/Practice2/Practice2/Practice2.csproj",
       "projectName": "Practice2",
-      "projectPath": "C:\\RiderPractice2\\Practice2\\Practice2.csproj",
-      "packagesPath": "C:\\Users\\markh\\.nuget\\packages\\",
-      "outputPath": "C:\\RiderPractice2\\Practice2\\obj\\",
+      "projectPath": "/Users/bunjee/RiderProjects/Practice2/Practice2/Practice2.csproj",
+      "packagesPath": "/Users/bunjee/.nuget/packages/",
+      "outputPath": "/Users/bunjee/RiderProjects/Practice2/Practice2/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\markh\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/Users/bunjee/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
@@ -59,7 +59,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.102/RuntimeIdentifierGraph.json"
       }
     }
   }
