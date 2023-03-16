@@ -1,26 +1,46 @@
 ﻿using Kse.Algorithms.Samples;
 
 var timesForProgram = 3;
-List<int> comparingGroups = new List<int>();
+int comparingAlgorithm = 0;
 
-for (int program = 0; program < timesForProgram; program++){
-
+for (int program = 0; program < timesForProgram; program++)
+{
+    var map_height = 100;
+    var map_width = 100;
+    
     var generator = new MapGenerator(new MapGeneratorOptions()
         {
-            Height = 60,
-            Width = 60,
-            Seed = 1337,
+            Height = map_height,
+            Width = map_width,
+            //Seed = 1337,
+            Noise = 0.2f,
             AddTraffic = true,
         });
 
-
+    const string wall = "█";
+    const string space = " ";
+    
+    
     Point start = new Point(0, 0);
     Point goal = new Point(47, 42);
 
     string[,] map = generator.Generate();
+    while (map[start.Column, start.Row] == wall)
+    {
+        Random random;
+        random = new Random();
+        start = new Point(random.Next(map_width), random.Next(map_height));
+    }
+    while (map[goal.Column, goal.Row] == wall)
+    {
+        Random random;
+        random = new Random();
+        goal = new Point(random.Next(map_width), random.Next(map_height));
+    }
 
-    const string wall = "█";
-    const string space = " ";
+    
+
+    
 
     List<Point> GetNeighbours(Point start, string[,] maze)
     {
@@ -85,8 +105,47 @@ for (int program = 0; program < timesForProgram; program++){
         return Path;
     }
 
+    List<Point> dijkstraGetShortestPath(string[,] map, Point start, Point goal)
+    {
+        var distances = new Dictionary<Point, int>();
+        var origins = new Dictionary<Point, Point>();
+        Point position = start;
+        distances.Add(start, 0);
+
+        while (position.Column != goal.Column || position.Row != goal.Row)
+        {
+            var neighbours = GetNeighbours(position, map);
+            foreach (var neighbour in neighbours)
+            {
+                if (!origins.ContainsKey(neighbour))
+                {
+                    origins.Add(neighbour, position);
+                    var traffic = map[position.Column, position.Row];
+                    var traffic1 = 1;
+                    if (traffic != space && traffic != wall)
+                    {
+                        traffic1 = Int32.Parse(traffic);
+                    }
+                
+                    distances.Add(neighbour, traffic1 + distances[position]);
+                }
+            }
+            distances.Remove(position);
+            position = distances.MinBy(kvp => kvp.Value).Key;
+        }
+
+        List<Point> Path = new List<Point>();
+        while (position.Column != start.Column || position.Row != start.Row)
+        {
+            Path.Add(position);
+            position = origins[position];
+        }
+        Path.Add(position);
+        return Path;
+    }
+
     var AStarShortestPath = AStarGetShortestPath(map, start, goal);
-    var dijkstraShortestPath = AStarGetShortestPath(map, start, goal);
+    var dijkstraShortestPath = dijkstraGetShortestPath(map, start, goal);
     
     var roadAStar = 0;
     var roadDijkstra = 0;
@@ -130,13 +189,30 @@ for (int program = 0; program < timesForProgram; program++){
     if (roadDijkstra < roadAStar)
     {
         Console.WriteLine($"Dijkstra better - {roadDijkstra} steps");
+        Console.WriteLine($"A-Star - {roadAStar} steps");
+        comparingAlgorithm -= 1;
     }
     else if (roadDijkstra > roadAStar)
     {
         Console.WriteLine($"A-Star better - {roadAStar} steps");
+        Console.WriteLine($"Dijkstra - {roadDijkstra} steps");
+        comparingAlgorithm += 1;
     }
     else
     {
-        Console.WriteLine("Same count in steps");
+        Console.WriteLine($"Same count in steps - {roadAStar}");
     }
+}
+
+if (comparingAlgorithm < 0)
+{
+    Console.WriteLine($"Dijkstra better");
+}
+else if (comparingAlgorithm > 0)
+{
+    Console.WriteLine($"A-Star better");
+}
+else
+{
+    Console.WriteLine("Same results");
 }
